@@ -10,22 +10,18 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 class RestaurantAdapter extends BaseAdapter {
 
     Context context;
-    String[] Names;
-    String[] Hours;
-    String[] WaitTime;
-    int [] ResIDs;
+    ArrayList<Restaurants> restaurantsList;
     private static LayoutInflater inflater = null;
 
-    public RestaurantAdapter(Context context, String[] Name,  String[] Hours,  String[] WaitingTime, int [] Logo) {
+    public RestaurantAdapter(Context context, ArrayList<Restaurants> RestaurantsList) {
         // TODO Auto-generated constructor stub
         this.context = context;
-        this.Names = Name;
-        this.Hours = Hours;
-        this.WaitTime = WaitingTime;
-        ResIDs = Logo;
+        this.restaurantsList = RestaurantsList;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -33,13 +29,13 @@ class RestaurantAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
-        return Names.length;
+        return restaurantsList.size();
     }
 
     @Override
     public Object getItem(int position) {
         // TODO Auto-generated method stub
-        return Names[position];
+        return restaurantsList.get(position);
     }
 
     @Override
@@ -56,17 +52,14 @@ class RestaurantAdapter extends BaseAdapter {
             vi = inflater.inflate(R.layout.restaurant_row, null);
 
         TextView text = (TextView) vi.findViewById(R.id.ResName);
-        text.setText(Names[position]);
+        text.setText(restaurantsList.get(position).getName());
 
         text = (TextView) vi.findViewById(R.id.ResWhour);
-        text.setText(Hours[position]);
+        text.setText(restaurantsList.get(position).getName());
 
         text = (TextView) vi.findViewById(R.id.ResWaitTime);
-        text.setText(WaitTime[position]);
+        text.setText(context.getString(R.string.EstimatedWaitTime) + " " + restaurantsList.get(position).getEstimatWaitPerPerson());
 
-
-        ImageView Logo = (ImageView) vi.findViewById(R.id.IVLogo);
-        Logo.setImageResource(ResIDs[position]);
         return vi;
     }
 }
