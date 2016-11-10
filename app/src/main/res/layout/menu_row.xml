@@ -22,25 +22,23 @@
             android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/ResName"
+            android:id="@+id/Itemname"
             android:gravity="center_vertical|center_horizontal"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/ResWhour"
+            android:id="@+id/ItemPrice"
             android:text="Footer"
             android:gravity="center_vertical|center_horizontal"
             android:textSize="18sp" />
 
-        <TextView android:layout_width="match_parent"
+        <Button
+            android:text="Add To Order"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Header"
-            android:layout_weight="1"
-            android:gravity="center_vertical|center_horizontal"
-            android:id="@+id/ResWaitTime"
-            android:textSize="20sp" />
+            android:id="@+id/button2" />
 
     </LinearLayout>
 
