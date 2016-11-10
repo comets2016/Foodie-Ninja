@@ -17,4 +17,9 @@
     <string name="title_activity_restaurant">Restaurant</string>
     <string name="title_activity_eticket">ETicket</string>
     <string name="title_activity_payment">Payment</string>
+    <string name="ErrorJsonParsing">Error Parsing Data!!!</string>
+    <string name="ErrorRetrvingData">Error Getting Data From Server!!!</string>
+    <string name="EstimatedWaitTime">Estimated Wait Time:</string>
+    <string name="Downloading">Downloading Data..</string>
+    <string name="Wait">Please wait</string>
 </resources>

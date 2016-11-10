@@ -3,9 +3,15 @@ package com.example.bxt140930.foodieninja;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,11 +20,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        CommunicationManager CM = new CommunicationManager();
+        String Result = CM.SendTheResuest(this, "api/food-joints", new HashMap<String, String>());
+
+        JsonParser JP = new JsonParser(this);
+        ArrayList<Restaurants> ListOfRestaurants = JP.GetRestaurants(Result);
+
         ListView listview = (ListView) findViewById(R.id.RestaurantList);
-        listview.setAdapter(new RestaurantAdapter(this, new String[] { "Subway",
-                "Chick-fil-A" }, new String[] { "7:30am - 8:00pm",
-                "7:30am - 8:00pm" }, new String[] { "Estimated wait time: 26 minutes",
-                "Estimated wait time: 12 minutes"}, new int[] { R.mipmap.subway,R.mipmap.chick }));
+        listview.setAdapter(new RestaurantAdapter(this, ListOfRestaurants));
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
