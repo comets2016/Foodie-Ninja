@@ -53,6 +53,7 @@ class MenuAdapter extends BaseAdapter {
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.menu_row, null);
+        
 
         TextView text = (TextView) vi.findViewById(R.id.Itemname);
         text.setText(Menu.get(position).getName());
