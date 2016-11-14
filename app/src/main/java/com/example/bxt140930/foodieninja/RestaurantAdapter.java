@@ -3,10 +3,14 @@ package com.example.bxt140930.foodieninja;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,7 +49,7 @@ class RestaurantAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
         View vi = convertView;
         if (vi == null)
@@ -55,10 +59,25 @@ class RestaurantAdapter extends BaseAdapter {
         text.setText(restaurantsList.get(position).getName());
 
         text = (TextView) vi.findViewById(R.id.ResWhour);
-        text.setText(restaurantsList.get(position).getName());
+        text.setText(restaurantsList.get(position).getWorkingHours());
 
         text = (TextView) vi.findViewById(R.id.ResWaitTime);
         text.setText(context.getString(R.string.EstimatedWaitTime) + " " + restaurantsList.get(position).getEstimatWaitPerPerson());
+
+        byte[] decodedString = Base64.decode(restaurantsList.get(position).getImageUrl(), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        ImageView IV = (ImageView) vi.findViewById(R.id.IVLogo);
+        IV.setImageBitmap(decodedByte);
+
+        ImageButton IMGBTN = (ImageButton) vi.findViewById(R.id.IMGBTNGetMenu);
+        IMGBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent I = new Intent(context, MenuActivity.class);
+                I.putExtra("ID",restaurantsList.get(position).getId());
+                context.startActivity(I);
+            }
+        });
 
         return vi;
     }

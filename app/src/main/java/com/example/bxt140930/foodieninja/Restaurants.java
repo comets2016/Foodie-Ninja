@@ -8,6 +8,7 @@ public class Restaurants {
     int id;
     String name;
     String imageUrl;
+    String WorkingHours;
     int servingNumber;
     int lastIssuedTicketNum;
     double estimatWaitPerPerson;
@@ -19,7 +20,13 @@ public class Restaurants {
     public void setId(int id) {
         this.id = id;
     }
+    public String getWorkingHours() {
+        return WorkingHours;
+    }
 
+    public void setWorkingHours(String workingHours) {
+        WorkingHours = workingHours;
+    }
     public String getName() {
         return name;
     }

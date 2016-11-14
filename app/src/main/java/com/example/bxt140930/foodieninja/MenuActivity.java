@@ -14,10 +14,18 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+        Intent I = getIntent();
+        int ID = I.getIntExtra("ID", -1);
+
+        if(ID < 0)
+            finish();
+
+        JsonParser JP = new JsonParser(this);
+        ;
+
         ListView listview = (ListView) findViewById(R.id.MenuList);
-        listview.setAdapter(new MenuAdapter(this, new String[] { "Cold Cut Combo",
-                "Steak & Cheese" }, new String[] { "7.25$",
-                "8.00$" }, new int[] { R.mipmap.fooditemone,R.mipmap.fooditemtwo }));
+        listview.setAdapter(new MenuAdapter(this, JP.GetMenu(ID)));
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
