@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 import org.xml.sax.helpers.LocatorImpl;
@@ -15,10 +16,10 @@ import org.xml.sax.helpers.LocatorImpl;
 public class LoginActivity extends AppCompatActivity {
     String userNameForServer="";
     String passwordForServer="";
-    Context C;
+    Context c;
    LoginActivity()
     {
-        this.C = this;
+        this.c = this;
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //to check whether the user already login
 
-        loginSinglton.validateUser(userNameForServer, passwordForServer);
+        loginSinglton.validateUser(c, userNameForServer, passwordForServer);
 
         setContentView(R.layout.activity_login);
         final EditText user = (EditText)findViewById(R.id.ETUser);
@@ -47,10 +48,33 @@ public class LoginActivity extends AppCompatActivity {
                     jsonObject.put("j_password", passwordForServer);
                 } catch(Exception e)
                 {
-                    //
+                    //TODO: need different error message
+                    Toast.makeText(c, c.getString(R.string.ErrorRetrvingData), Toast.LENGTH_LONG).show();
                 }
 
-                String Result = cm.sendJsonPOSTResuest(C, "api/authentication", jsonObject);
+                int returnCode = cm.sendJsonPOSTResuest(c, "api/authentication", jsonObject);
+
+                if (returnCode != 200)
+                {
+                    finish();
+                }
+                else
+                {
+                    // successful case! Good user id and password
+                    // save the credential to the sqlite
+                    String tableName="credential";
+                    SQLiteJDBCforCredential sqlite = new SQLiteJDBCforCredential();
+                    if((sqlite.createDB(tableName) && sqlite.createTable(tableName))!=false)
+                    {
+                        // insert into DB
+                        sqlite.insertIntoTable(tableName, userNameForServer, passwordForServer);
+                    }
+                    else
+                    {
+                        finish();
+                    }
+
+                }
                 //moving to the next page.. not yet.s.
 //                Intent intent = new Intent(getBaseContext(), MainActivity.class);
 //                startActivity(intent);
