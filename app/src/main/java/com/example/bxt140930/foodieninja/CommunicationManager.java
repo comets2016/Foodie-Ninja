@@ -27,7 +27,7 @@ public class CommunicationManager {
     private ProgressDialog pDialog;
     String Result;
 
-    public String SendJsonPOSTResuest(Context C, final String Type, final JSONObject Data)
+    public String sendJsonPOSTResuest(Context C, final String Type, final JSONObject Data)
     {
         try {
             pDialog = ProgressDialog.show(C, C.getString(R.string.Downloading), C.getString(R.string.Wait), true, false);
@@ -38,8 +38,8 @@ public class CommunicationManager {
                         super.run();
                         try
                         {
-
-                            URL url = new URL(ServerUrl + Type);
+                            String completedUrl = ServerUrl + Type;
+                            URL url = new URL(completedUrl);
                             URLConnection conn = url.openConnection();
                             HttpURLConnection httpConn = (HttpURLConnection) conn;
                             httpConn.setAllowUserInteraction(false);
