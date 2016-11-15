@@ -13,11 +13,17 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
+
 /**
  * Created by bxt140930 on 11/9/2016.
  */
@@ -25,9 +31,10 @@ import java.util.HashMap;
 public class CommunicationManager {
     String ServerUrl = "http://ec2-35-162-107-27.us-west-2.compute.amazonaws.com:8080/";
     private ProgressDialog pDialog;
-    String Result;
+    String result;
+    int returnCode=-1;
 
-    public String sendJsonPOSTResuest(Context C, final String Type, final JSONObject Data)
+    public int sendJsonPOSTResuest(Context C, final String type, final JSONObject data)
     {
         try {
             pDialog = ProgressDialog.show(C, C.getString(R.string.Downloading), C.getString(R.string.Wait), true, false);
@@ -38,23 +45,31 @@ public class CommunicationManager {
                         super.run();
                         try
                         {
-                            String completedUrl = ServerUrl + Type;
+                            String completedUrl = ServerUrl + type;
+
                             URL url = new URL(completedUrl);
-                            URLConnection conn = url.openConnection();
-                            HttpURLConnection httpConn = (HttpURLConnection) conn;
-                            httpConn.setAllowUserInteraction(false);
-                            httpConn.setInstanceFollowRedirects(true);
-                            httpConn.setRequestProperty("Content-Type", "application/json");
-                            httpConn.setRequestMethod("POST");
-                            httpConn.connect();
+                            String user = data.get("j_username").toString();
+                            String password = data.get("j_password").toString();
+                            Map<String,Object> params = new LinkedHashMap<>();
+                            params.put("j_username", user);
+                            params.put("j_password", password);
 
-                            DataOutputStream wr = new DataOutputStream(httpConn.getOutputStream());
-                            wr.writeBytes(Data.toString());
-                            wr.flush();
-                            wr.close();
+                            StringBuilder postData = new StringBuilder();
+                            for (Map.Entry<String,Object> param : params.entrySet()) {
+                                if (postData.length() != 0) postData.append('&');
+                                postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
+                                postData.append('=');
+                                postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+                            }
+                            byte[] postDataBytes = postData.toString().getBytes("UTF-8");
 
-                            InputStream is = httpConn.getInputStream();
-                            Result = convertinputStreamToString(is);
+                            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                            conn.setRequestMethod("POST");
+                            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                            conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
+                            conn.setDoOutput(true);
+                            conn.getOutputStream().write(postDataBytes);
+                            returnCode = conn.getResponseCode();
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -68,12 +83,12 @@ public class CommunicationManager {
             };
             welcomeThread.start();
             welcomeThread.join();
-            return Result;
+            return returnCode;
         }
         catch (Exception Ex)
         {
             Toast.makeText(C, C.getString(R.string.ErrorRetrvingData), Toast.LENGTH_LONG).show();
-            return "";
+            return returnCode;
         }
     }
     public String SendTheResuest(Context C, final String Type, HashMap<String, String> Parameters)
@@ -96,7 +111,7 @@ public class CommunicationManager {
                             httpConn.connect();
 
                             InputStream is = httpConn.getInputStream();
-                            Result = convertinputStreamToString(is);
+                            result = convertinputStreamToString(is);
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -110,7 +125,7 @@ public class CommunicationManager {
             };
             welcomeThread.start();
             welcomeThread.join();
-            return Result;
+            return result;
         }
         catch (Exception Ex)
         {
@@ -141,7 +156,7 @@ public class CommunicationManager {
                             httpConn.connect();
 
                             InputStream is = httpConn.getInputStream();
-                            Result = convertinputStreamToString(is);
+                            result = convertinputStreamToString(is);
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -155,7 +170,7 @@ public class CommunicationManager {
             };
             welcomeThread.start();
             welcomeThread.join();
-            return Result;
+            return result;
         }
         catch (Exception Ex)
         {
