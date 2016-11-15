@@ -20,21 +20,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        CommunicationManager CM = new CommunicationManager();
-        String Result = CM.SendTheResuest(this, "api/food-joints", new HashMap<String, String>());
-
         JsonParser JP = new JsonParser(this);
-        ArrayList<Restaurants> ListOfRestaurants = JP.GetRestaurants(Result);
+        ArrayList<Restaurants> ListOfRestaurants = JP.GetRestaurants();
 
         ListView listview = (ListView) findViewById(R.id.RestaurantList);
         listview.setAdapter(new RestaurantAdapter(this, ListOfRestaurants));
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
                 Intent appInfo = new Intent(MainActivity.this, Restaurant.class);
                 startActivity(appInfo);
                 finish();
             }
-        });
+        });*/
     }
 }

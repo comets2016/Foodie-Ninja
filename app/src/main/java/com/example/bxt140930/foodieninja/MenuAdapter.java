@@ -2,6 +2,9 @@ package com.example.bxt140930.foodieninja;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,20 +12,19 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
 class MenuAdapter extends BaseAdapter {
 
     Context context;
-    String[] Names;
-    String[] Prices;
-    int [] ResIDs;
+    ArrayList<Menu> Menu;
     private static LayoutInflater inflater = null;
 
-    public MenuAdapter(Context context, String[] Name, String[] Hours, int [] Logo) {
+    public MenuAdapter(Context context, ArrayList<Menu> Menu) {
         // TODO Auto-generated constructor stub
         this.context = context;
-        this.Names = Name;
-        this.Prices = Hours;
-        ResIDs = Logo;
+        this.Menu = Menu;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -30,13 +32,13 @@ class MenuAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
-        return Names.length;
+        return Menu.size();
     }
 
     @Override
     public Object getItem(int position) {
         // TODO Auto-generated method stub
-        return Names[position];
+        return Menu.get(position);
     }
 
     @Override
@@ -51,15 +53,19 @@ class MenuAdapter extends BaseAdapter {
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.menu_row, null);
+        
 
         TextView text = (TextView) vi.findViewById(R.id.Itemname);
-        text.setText(Names[position]);
+        text.setText(Menu.get(position).getName());
 
         text = (TextView) vi.findViewById(R.id.ItemPrice);
-        text.setText(Prices[position]);
+        text.setText(String.valueOf(Menu.get(position).getPrice()));
 
-        ImageView Logo = (ImageView) vi.findViewById(R.id.IVLogo);
-        Logo.setImageResource(ResIDs[position]);
+        byte[] decodedString = Base64.decode(Menu.get(position).getImageUrl(), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        ImageView IV = (ImageView) vi.findViewById(R.id.IVLogo);
+        IV.setImageBitmap(decodedByte);
+
         return vi;
     }
 }
