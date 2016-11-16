@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -16,8 +17,10 @@ import org.xml.sax.helpers.LocatorImpl;
 public class LoginActivity extends AppCompatActivity {
     String userNameForServer="";
     String passwordForServer="";
+    private static final int REQUEST_SIGNUP = 0;
+
     Context c;
-   LoginActivity()
+    LoginActivity()
     {
         this.c = this;
     }
@@ -36,11 +39,13 @@ public class LoginActivity extends AppCompatActivity {
         final EditText password = (EditText)findViewById(R.id.ETPass);
 
         Button login = (Button)findViewById(R.id.BTNLogin);
+        TextView signUp = (TextView)findViewById(R.id.TXTSignUp);
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 userNameForServer = user.getText().toString();
-                passwordForServer = password.getText().toString();
+                        passwordForServer = password.getText().toString();
                 CommunicationManager cm = new CommunicationManager();
                 JSONObject jsonObject = new JSONObject();
                 try {
@@ -54,8 +59,11 @@ public class LoginActivity extends AppCompatActivity {
 
                 int returnCode = cm.sendJsonPOSTResuest(c, "api/authentication", jsonObject);
 
+
+                // 200 is the good return code that indicates the server found the user name/password
                 if (returnCode != 200)
                 {
+                    // throwing an error with some kind of message
                     finish();
                 }
                 else
@@ -63,22 +71,34 @@ public class LoginActivity extends AppCompatActivity {
                     // successful case! Good user id and password
                     // save the credential to the sqlite
                     String tableName="credential";
-                    SQLiteJDBCforCredential sqlite = new SQLiteJDBCforCredential();
-                    if((sqlite.createDB(tableName) && sqlite.createTable(tableName))!=false)
-                    {
-                        // insert into DB
-                        sqlite.insertIntoTable(tableName, userNameForServer, passwordForServer);
-                    }
-                    else
-                    {
-                        finish();
-                    }
+                    SQLiteJDBCforCredential sqlite = new SQLiteJDBCforCredential(c, tableName, userNameForServer, passwordForServer);
+
+                    // storing the credential to the credential table
+                    sqlite.addCredential(new Credential(userNameForServer,passwordForServer));
+
+//                    if((sqlite.createDB(tableName) && sqlite.createTable(tableName))!=false)
+//                    {
+//                         insert into DB
+//                        sqlite.insertIntoTable(tableName, userNameForServer, passwordForServer);
+//                    }
+//                    else
+//                    {
+//                        finish();
+//                    }
 
                 }
                 //moving to the next page.. not yet.s.
 //                Intent intent = new Intent(getBaseContext(), MainActivity.class);
 //                startActivity(intent);
 //                finish();
+            }
+        });
+
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+              Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivityForResult(intent, REQUEST_SIGNUP);
             }
         });
     }

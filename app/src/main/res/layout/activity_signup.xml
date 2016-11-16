@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:id="@+id/SignUpActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/textView"
+        android:layout_weight="0.42"
+        android:fontFamily="sans-serif"
+        tools:text="SignUp"
+        android:textSize="30sp"
+        android:textAlignment="center" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/ETFirstName"
+        android:fontFamily="sans-serif"
+        android:textSize="24sp"
+        android:allowUndo="true"
+        android:hint="FirstName" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/ETLastName"
+        android:fontFamily="sans-serif"
+        android:textSize="24sp"
+        android:hint="LastName" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/ETEmail"
+        android:fontFamily="sans-serif"
+        android:textSize="24sp"
+        android:hapticFeedbackEnabled="true"
+        android:hint="Email" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/ETId"
+        android:fontFamily="sans-serif"
+        android:textSize="24sp"
+        android:hint="ID" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/ETPassword"
+        android:fontFamily="sans-serif"
+        android:textSize="24sp"
+        android:hint="Password" />
+
+    <Button
+        android:text="Sing Up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/BTNSignUp"
+        android:textSize="24sp" />
+</LinearLayout>
