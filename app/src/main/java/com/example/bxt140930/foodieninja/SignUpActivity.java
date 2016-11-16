@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import org.json.JSONObject;
 
 /**
  * Created by jxj050100 on 11/15/2016.
@@ -56,6 +59,16 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
         // TODO: Implement your own signup logic here.
+        CommunicationManager cm = new CommunicationManager();
+        JSONObject jsonObject = new JSONObject();
+        try {
+          //  jsonObject.put("j_username", userNameForServer);
+            //jsonObject.put("j_password", passwordForServer);
+        } catch(Exception e)
+        {
+            //TODO: need different error message
+//            Toast.makeText(c, c.getString(R.string.ErrorRetrvingData), Toast.LENGTH_LONG).show();
+        }
 
 //        new android.os.Handler().postDelayed(
 //                new Runnable() {

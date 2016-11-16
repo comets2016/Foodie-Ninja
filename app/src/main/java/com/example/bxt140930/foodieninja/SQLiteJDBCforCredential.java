@@ -2,15 +2,9 @@ package com.example.bxt140930.foodieninja;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import java.security.KeyStore;
-import java.security.cert.Certificate;
-import java.security.spec.ECField;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
 
 /**
  * Created by jxj050100 on 11/14/2016.
@@ -26,12 +20,13 @@ public class SQLiteJDBCforCredential extends SQLiteOpenHelper {
     private static String TABLE_CREDENTIAL = "";
 
     // Contacts Table Columns names
-    private static String KEY_ID = "Username";
-    private static String KEY_PASSWORD = "Password";
+    private static String KEY_ID = "username";
+    private static String KEY_PASSWORD = "password";
 
-    public SQLiteJDBCforCredential(Context context, String tableName, String userid, String password) {
+    public SQLiteJDBCforCredential(Context context, String tableName) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         TABLE_CREDENTIAL = tableName;
+
     }
 
 //    public boolean createDB(String tableName)
@@ -112,11 +107,32 @@ public class SQLiteJDBCforCredential extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, credential.get_id()); // User's id
+        values.put(KEY_ID, credential.getUsername()); // User's id
         values.put(KEY_PASSWORD, credential.getPassword()); // User's password
 
         // Inserting Row
         db.insert(TABLE_CREDENTIAL, null, values);
         db.close(); // Closing database connection
+    }
+
+    public Credential getAllContacts() {
+        Credential credential = new Credential();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_CREDENTIAL;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                credential.setUsername(cursor.getString(0));
+                credential.setPassword(cursor.getString(1));
+                break;
+            } while (cursor.moveToNext());
+        }
+
+        // return contact list
+        return credential;
     }
 }
