@@ -6,9 +6,8 @@ package com.example.bxt140930.foodieninja;
 
 public class Credential {
 
-    String _id;
+    String username;
     String password;
-
     // Empty constructor
     public Credential(){
 
@@ -16,23 +15,31 @@ public class Credential {
 
     // constructor
     public Credential(String id, String password){
-        this._id = id;
+        this.username = id;
         this.password = password;
     }
 
-    public String get_id() {
-        return _id;
+    public String getUsername() {
+        return this.username;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Credential{" +
+                "password='" + password + '\'' +
+                ", username='" + username + '\'' +
+                '}';
     }
 }

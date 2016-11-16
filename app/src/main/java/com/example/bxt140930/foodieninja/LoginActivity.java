@@ -28,12 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LoginSinglton loginSinglton = LoginSinglton.getInstance();
-
         //to check whether the user already login
-
-        loginSinglton.validateUser(c, userNameForServer, passwordForServer);
-
         setContentView(R.layout.activity_login);
         final EditText user = (EditText)findViewById(R.id.ETUser);
         final EditText password = (EditText)findViewById(R.id.ETPass);
@@ -45,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 userNameForServer = user.getText().toString();
-                        passwordForServer = password.getText().toString();
+                passwordForServer = password.getText().toString();
                 CommunicationManager cm = new CommunicationManager();
                 JSONObject jsonObject = new JSONObject();
                 try {
@@ -71,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                     // successful case! Good user id and password
                     // save the credential to the sqlite
                     String tableName="credential";
-                    SQLiteJDBCforCredential sqlite = new SQLiteJDBCforCredential(c, tableName, userNameForServer, passwordForServer);
+                    SQLiteJDBCforCredential sqlite = new SQLiteJDBCforCredential(c, tableName);
 
                     // storing the credential to the credential table
                     sqlite.addCredential(new Credential(userNameForServer,passwordForServer));
@@ -88,8 +83,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
                 //moving to the next page.. not yet.s.
-//                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                startActivity(intent);
 //                finish();
             }
         });
