@@ -14,13 +14,15 @@ import android.widget.Toast;
 import org.json.JSONObject;
 import org.xml.sax.helpers.LocatorImpl;
 
+import communication.HTTPPostJsonCommunication;
+
 public class LoginActivity extends AppCompatActivity {
     String userNameForServer="";
     String passwordForServer="";
     private static final int REQUEST_SIGNUP = 0;
 
     Context c;
-    LoginActivity()
+    public LoginActivity()
     {
         this.c = this;
     }
@@ -41,51 +43,26 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 userNameForServer = user.getText().toString();
                 passwordForServer = password.getText().toString();
-                CommunicationManager cm = new CommunicationManager();
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("j_username", userNameForServer);
-                    jsonObject.put("j_password", passwordForServer);
-                } catch(Exception e)
-                {
-                    //TODO: need different error message
-                    Toast.makeText(c, c.getString(R.string.ErrorRetrvingData), Toast.LENGTH_LONG).show();
-                }
+                JsonParser JP = new JsonParser(c);
+                Credential CR = new Credential();
+                CR.setUsername(userNameForServer);
+                CR.setPassword(passwordForServer);
+                JP.CheckCredentials(CR);
+                String returnString =  JP.CheckCredentials(CR);
+                int returnCode = Integer.parseInt(returnString);
 
-                int returnCode = cm.sendJsonPOSTResuest(c, "api/authentication", jsonObject);
-
-
-                // 200 is the good return code that indicates the server found the user name/password
                 if (returnCode != 200)
                 {
-                    // throwing an error with some kind of message
-                    finish();
+
                 }
                 else
                 {
-                    // successful case! Good user id and password
-                    // save the credential to the sqlite
-                    String tableName="credential";
-                    SQLiteJDBCforCredential sqlite = new SQLiteJDBCforCredential(c, tableName);
-
-                    // storing the credential to the credential table
+                    SQLiteJDBCforCredential sqlite = new SQLiteJDBCforCredential(c);
                     sqlite.addCredential(new Credential(userNameForServer,passwordForServer));
-
-//                    if((sqlite.createDB(tableName) && sqlite.createTable(tableName))!=false)
-//                    {
-//                         insert into DB
-//                        sqlite.insertIntoTable(tableName, userNameForServer, passwordForServer);
-//                    }
-//                    else
-//                    {
-//                        finish();
-//                    }
-
+                    Intent intent = new Intent(getBaseContext(), FoodJointControllerActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
-                //moving to the next page.. not yet.s.
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                startActivity(intent);
-//                finish();
             }
         });
 
@@ -98,13 +75,3 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 }
-//    ListView listview = (ListView) findViewById(R.id.MenuList);
-//listview.setAdapter(new MenuAdapter(this, JP.GetMenu(ID)));
-//        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//@Override
-//public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-//        Intent appInfo = new Intent(MenuActivity.this, Restaurant.class);
-//        startActivity(appInfo);
-//        finish();
-//        }
-//        });

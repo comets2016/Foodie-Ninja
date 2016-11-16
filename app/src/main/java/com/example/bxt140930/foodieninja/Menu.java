@@ -1,10 +1,12 @@
 package com.example.bxt140930.foodieninja;
 
+import java.io.Serializable;
+
 /**
  * Created by bxt140930 on 11/9/2016.
  */
 
-public class Menu {
+public class Menu  implements Serializable {
     int id;
     String name;
     String imageUrl;

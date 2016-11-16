@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            app:srcCompat="@mipmap/ic_launcher"
+            android:id="@+id/IVItemImage"
+            android:layout_height="80dp"
+            android:layout_width="80dp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/TVItemName"
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="24sp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center_horizontal">
+
+                <ImageButton
+                    android:layout_height="match_parent"
+                    android:id="@+id/IMGBTNRemoveOne"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:background="@android:color/holo_red_light" />
+
+                <TextView
+                    android:text="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/TVItemQuantity"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|center_horizontal" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/IMGBTNAddOne"
+                    android:layout_weight="1"
+                    android:background="@android:color/holo_green_dark" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

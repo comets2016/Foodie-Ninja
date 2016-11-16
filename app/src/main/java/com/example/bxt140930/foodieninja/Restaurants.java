@@ -9,9 +9,7 @@ public class Restaurants {
     String name;
     String imageUrl;
     String WorkingHours;
-    int servingNumber;
-    int lastIssuedTicketNum;
-    double estimatWaitPerPerson;
+    double EstimatedWait;
 
     public int getId() {
         return id;
@@ -43,27 +41,11 @@ public class Restaurants {
         this.imageUrl = imageUrl;
     }
 
-    public int getServingNumber() {
-        return servingNumber;
+    public double getEstimatedWait() {
+        return EstimatedWait;
     }
 
-    public void setServingNumber(int servingNumber) {
-        this.servingNumber = servingNumber;
-    }
-
-    public int getLastIssuedTicketNum() {
-        return lastIssuedTicketNum;
-    }
-
-    public void setLastIssuedTicketNum(int lastIssuedTicketNum) {
-        this.lastIssuedTicketNum = lastIssuedTicketNum;
-    }
-
-    public double getEstimatWaitPerPerson() {
-        return estimatWaitPerPerson;
-    }
-
-    public void setEstimatWaitPerPerson(double estimatWaitPerPerson) {
-        this.estimatWaitPerPerson = estimatWaitPerPerson;
+    public void setEstimatedWait(double EstimatWaitPerPerson) {
+        this.EstimatedWait = EstimatWaitPerPerson;
     }
 }

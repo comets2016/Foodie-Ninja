@@ -1,7 +1,6 @@
 package com.example.bxt140930.foodieninja;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -9,7 +8,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.StringTokenizer;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import communication.HTTPCredentialCommunication;
+import communication.HTTPGetCommunication;
+import communication.HTTPGetFriendlyCommunication;
+import communication.HTTPPostJsonArrayCommunication;
+import communication.HTTPPostJsonCommunication;
 
 /**
  * Created by bxt140930 on 11/9/2016.
@@ -26,19 +32,26 @@ public class JsonParser {
         ArrayList<Restaurants> RestaurantsList = new ArrayList<>();
         try
         {
-            CommunicationManager CM = new CommunicationManager();
-            String Result = CM.SendTheResuest(C, "api/food-joints", new HashMap<String, String>());
+            HTTPGetCommunication CM = new HTTPGetCommunication();
+            String Result = CM.SendResuest(C, "api/food-joints", new HashMap<String, String>());
 
             JSONArray JSonArray = new JSONArray(Result);
             for(int i = 0; i < JSonArray.length(); i++)
             {
                 JSONObject JObj = JSonArray.getJSONObject(i);
                 Restaurants Res = new Restaurants();
+                if(JObj.isNull("id"))
+                    continue;
                 Res.setId(JObj.getInt("id"));
+                if(JObj.isNull("name"))
+                    continue;
                 Res.setName(JObj.getString("name"));
-                Res.setImageUrl(JObj.getString("image"));
-                Res.setWorkingHours(JObj.getString("workingHours"));
-                Res.setEstimatWaitPerPerson(JObj.getDouble("estimatWaitPerPerson"));
+                if(!JObj.isNull("image"))
+                    Res.setImageUrl(JObj.getString("image"));
+                if(!JObj.isNull("workingHours"))
+                    Res.setWorkingHours(JObj.getString("workingHours"));
+                if(!JObj.isNull("EstimatedWait"))
+                    Res.setEstimatedWait(JObj.getDouble("EstimatedWait"));
                 RestaurantsList.add(Res);
             }
             return RestaurantsList;
@@ -56,16 +69,23 @@ public class JsonParser {
         {
             ArrayList<String> Params = new ArrayList<>();
             Params.add(String.valueOf(FoodJointID));
-            CommunicationManager CM = new CommunicationManager();
-            String Result = CM.SendTheFriendlyResuest(C, "api/menu-items/food-joint", Params);
+            HTTPGetFriendlyCommunication CM = new HTTPGetFriendlyCommunication();
+            String Result = CM.SendResuest(C, "api/menu-items/food-joint", Params);
             JSONArray JSonArray = new JSONArray(Result);
             for(int i = 0; i < JSonArray.length(); i++)
             {
                 JSONObject JObj = JSonArray.getJSONObject(i);
                 Menu Item = new Menu();
+                if(JObj.isNull("id"))
+                    continue;
                 Item.setId(JObj.getInt("id"));
+                if(JObj.isNull("name"))
+                    continue;
                 Item.setName(JObj.getString("name"));
-                Item.setImageUrl(JObj.getString("image"));
+                if(!JObj.isNull("image"))
+                    Item.setImageUrl(JObj.getString("image"));
+                if(JObj.isNull("price"))
+                    continue;
                 Item.setPrice(JObj.getDouble("price"));
                 Menu.add(Item);
             }
@@ -75,6 +95,75 @@ public class JsonParser {
         {
             Toast.makeText(C, C.getString(R.string.ErrorJsonParsing), Toast.LENGTH_LONG).show();
             return Menu;
+        }
+    }
+    public double GetTotal(Order O)
+    {
+        try
+        {
+            JSONArray JA = new JSONArray();
+            for(OrderItem OI : O.getOrderItems())
+            {
+                JSONObject JO = new JSONObject();
+                JO.put("id", OI.getItem().getId());
+                JO.put("quantity", OI.getQuantuty());
+                JA.put(JO);
+            }
+            HTTPPostJsonArrayCommunication CM = new HTTPPostJsonArrayCommunication();
+            String Result = CM.SendResuest(C, "api/menu-items/price", JA);
+
+            if(true)
+                return Double.valueOf(Result);
+
+            JSONObject JObj = new JSONObject(Result);
+            if(JObj.isNull("total"))
+                return -1;
+            return JObj.getDouble("total");
+        }
+        catch(Exception Ex)
+        {
+            Ex.printStackTrace();
+            Toast.makeText(C, C.getString(R.string.ErrorJsonParsing), Toast.LENGTH_LONG).show();
+            return -1;
+        }
+    }
+    public String CheckCredentials(Credential Cr)
+    {
+        Map<String,Object> params = new LinkedHashMap<>();
+        params.put("j_username", Cr.getUsername());
+        params.put("j_password", Cr.getPassword());
+        HTTPCredentialCommunication CM = new HTTPCredentialCommunication();
+        return CM.SendResuest(C, "api/authentication", params);
+    }
+
+    public Order GetTicketWithOrder(Order O)
+    {
+        try
+        {
+            JSONArray JA = new JSONArray();
+            for(OrderItem OI : O.getOrderItems())
+            {
+                JSONObject JO = new JSONObject();
+                JO.put("id", OI.getItem().getId());
+                JO.put("quantity", OI.getQuantuty());
+                JA.put(JO);
+            }
+            HTTPPostJsonArrayCommunication CM = new HTTPPostJsonArrayCommunication();
+            String Result = CM.SendResuest(C, "api/menu-items/price", JA);
+
+            if(true)
+                return null;
+
+            JSONObject JObj = new JSONObject(Result);
+            if(JObj.isNull("total"))
+                return null;
+            return null;
+        }
+        catch(Exception Ex)
+        {
+            Ex.printStackTrace();
+            Toast.makeText(C, C.getString(R.string.ErrorJsonParsing), Toast.LENGTH_LONG).show();
+            return null;
         }
     }
 }

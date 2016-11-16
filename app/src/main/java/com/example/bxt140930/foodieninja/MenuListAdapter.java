@@ -9,22 +9,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-class MenuAdapter extends BaseAdapter {
+class MenuListAdapter extends BaseAdapter {
 
     Context context;
     ArrayList<Menu> Menu;
+    OrderItemListAdapter OILA;
     private static LayoutInflater inflater = null;
 
-    public MenuAdapter(Context context, ArrayList<Menu> Menu) {
+    public MenuListAdapter(Context context, ArrayList<Menu> Menu,OrderItemListAdapter OILA) {
         // TODO Auto-generated constructor stub
         this.context = context;
         this.Menu = Menu;
+        this.OILA = OILA;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -48,12 +51,12 @@ class MenuAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.menu_row, null);
-        
+
 
         TextView text = (TextView) vi.findViewById(R.id.Itemname);
         text.setText(Menu.get(position).getName());
@@ -65,6 +68,14 @@ class MenuAdapter extends BaseAdapter {
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         ImageView IV = (ImageView) vi.findViewById(R.id.IVLogo);
         IV.setImageBitmap(decodedByte);
+
+        Button B = (Button)vi.findViewById(R.id.BTNAdd);
+        B.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OILA.AddItem(Menu.get(position));
+            }
+        });
 
         return vi;
     }

@@ -16,13 +16,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-class RestaurantAdapter extends BaseAdapter {
+class RestaurantListAdapter extends BaseAdapter {
 
     Context context;
     ArrayList<Restaurants> restaurantsList;
     private static LayoutInflater inflater = null;
 
-    public RestaurantAdapter(Context context, ArrayList<Restaurants> RestaurantsList) {
+    public RestaurantListAdapter(Context context, ArrayList<Restaurants> RestaurantsList) {
         // TODO Auto-generated constructor stub
         this.context = context;
         this.restaurantsList = RestaurantsList;
@@ -62,7 +62,7 @@ class RestaurantAdapter extends BaseAdapter {
         text.setText(restaurantsList.get(position).getWorkingHours());
 
         text = (TextView) vi.findViewById(R.id.ResWaitTime);
-        text.setText(context.getString(R.string.EstimatedWaitTime) + " " + restaurantsList.get(position).getEstimatWaitPerPerson());
+        text.setText(context.getString(R.string.EstimatedWaitTime) + " " + restaurantsList.get(position).getEstimatedWait());
 
         byte[] decodedString = Base64.decode(restaurantsList.get(position).getImageUrl(), Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
@@ -73,7 +73,7 @@ class RestaurantAdapter extends BaseAdapter {
         IMGBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent I = new Intent(context, MenuActivity.class);
+                Intent I = new Intent(context, MenuControllerActivity.class);
                 I.putExtra("ID",restaurantsList.get(position).getId());
                 context.startActivity(I);
             }

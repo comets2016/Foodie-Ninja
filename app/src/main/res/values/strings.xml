@@ -22,4 +22,5 @@
     <string name="EstimatedWaitTime">Estimated Wait Time:</string>
     <string name="Downloading">Downloading Data..</string>
     <string name="Wait">Please wait</string>
+    <string name="PaymentAmount">Payment Amount:</string>
 </resources>

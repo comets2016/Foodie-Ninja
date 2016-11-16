@@ -59,7 +59,7 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
         // TODO: Implement your own signup logic here.
-        CommunicationManager cm = new CommunicationManager();
+        //CommunicationManager cm = new CommunicationManager();
         JSONObject jsonObject = new JSONObject();
         try {
           //  jsonObject.put("j_username", userNameForServer);

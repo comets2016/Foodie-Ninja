@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-public class MenuActivity extends AppCompatActivity {
+import java.io.Serializable;
 
+public class MenuControllerActivity extends AppCompatActivity {
+    Order Order = new Order();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,25 +23,22 @@ public class MenuActivity extends AppCompatActivity {
             finish();
 
         JsonParser JP = new JsonParser(this);
-        ;
+
+        ListView LVOrderItems = (ListView) findViewById(R.id.OrderList);
+        OrderItemListAdapter OILA = new OrderItemListAdapter(this, Order.getOrderItems());
+        LVOrderItems.setAdapter(OILA);
 
         ListView listview = (ListView) findViewById(R.id.MenuList);
-        listview.setAdapter(new MenuAdapter(this, JP.GetMenu(ID)));
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-                Intent appInfo = new Intent(MenuActivity.this, Restaurant.class);
-                startActivity(appInfo);
-                finish();
-            }
-        });
+        listview.setAdapter(new MenuListAdapter(this, JP.GetMenu(ID), OILA));
+        listview.deferNotifyDataSetChanged();
 
         Button Fin = (Button)findViewById(R.id.BTNFinalize);
         Fin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), Payment.class);
-                startActivity(intent);
+                Intent I = new Intent(getBaseContext(), PaymentControllerActivity.class);
+                I.putExtra("Order", Order);
+                startActivity(I);
                 finish();
             }
         });

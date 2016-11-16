@@ -17,16 +17,14 @@ public class SQLiteJDBCforCredential extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "userandpassword";
 
     // Contacts table name
-    private static String TABLE_CREDENTIAL = "";
+    private static String TABLE_CREDENTIAL = "credential";
 
     // Contacts Table Columns names
     private static String KEY_ID = "username";
     private static String KEY_PASSWORD = "password";
 
-    public SQLiteJDBCforCredential(Context context, String tableName) {
+    public SQLiteJDBCforCredential(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        TABLE_CREDENTIAL = tableName;
-
     }
 
 //    public boolean createDB(String tableName)
@@ -115,7 +113,7 @@ public class SQLiteJDBCforCredential extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    public Credential getAllContacts() {
+    public Boolean getAllContacts() {
         Credential credential = new Credential();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_CREDENTIAL;
@@ -130,9 +128,9 @@ public class SQLiteJDBCforCredential extends SQLiteOpenHelper {
                 credential.setPassword(cursor.getString(1));
                 break;
             } while (cursor.moveToNext());
+            return true;
         }
-
-        // return contact list
-        return credential;
+        else
+            return false;
     }
 }
