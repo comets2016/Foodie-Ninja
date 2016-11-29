@@ -1,6 +1,8 @@
 package com.example.bxt140930.foodieninja;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,19 +13,33 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import communication.CommunicationManager;
+
 /**
  * Created by jxj050100 on 11/15/2016.
  */
 
 public class SignUpActivity extends AppCompatActivity {
 
+    /*
+    "login": "tester2",
+    "firstName": "tester2",
+    "lastName": "tester2",
+    "email": "teste2r@localhost",
+    "langKey": "en",
+    "password": "1234"
+     */
     Button _signupButton;
     EditText firstNameText;
     EditText lastNameText;
     EditText emailText;
     EditText idText;
     EditText passwordText;
-
+    Context s;
+    public SignUpActivity()
+    {
+        this.s = this;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,49 +58,38 @@ public class SignUpActivity extends AppCompatActivity {
 
         _signupButton.setEnabled(false);
 
-//        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
-//                R.style.AppTheme_Dark_Dialog);
-//        progressDialog.setIndeterminate(true);
-//        progressDialog.setMessage("Creating Account...");
-//        progressDialog.show();
-
         String firstName = firstNameText.getText().toString();
         String lastName = lastNameText.getText().toString();
         String email = emailText.getText().toString();
         String id = idText.getText().toString();
         String password = passwordText.getText().toString();
 
-        if (!validate(firstName, lastName, email, id, password)) {
-//            onSignupFailed();
-            return;
-        }
-        // TODO: Implement your own signup logic here.
-        //CommunicationManager cm = new CommunicationManager();
-        JSONObject jsonObject = new JSONObject();
-        try {
-          //  jsonObject.put("j_username", userNameForServer);
-            //jsonObject.put("j_password", passwordForServer);
-        } catch(Exception e)
-        {
-            //TODO: need different error message
-//            Toast.makeText(c, c.getString(R.string.ErrorRetrvingData), Toast.LENGTH_LONG).show();
-        }
+        validate(firstName, lastName, email, id, password);
+        JsonParser JP = new JsonParser(s);
+        Credential CR = new Credential(id, firstName, lastName, email, password);
 
-//        new android.os.Handler().postDelayed(
-//                new Runnable() {
-//                    public void run() {
-//                         On complete call either onSignupSuccess or onSignupFailed
-//                         depending on success
-//                        onSignupSuccess();
-//                         onSignupFailed();
-//                        progressDialog.dismiss();
-//                    }
-//                }, 3000);
+        String returnString = JP.SignUpRequest(CR);
+        int returnCode = Integer.parseInt(returnString);
+
+        if (returnCode != 201) {
+            // Something went wrong so
+            Toast.makeText(s, s.getString(R.string.error_signup_fail + returnCode), Toast.LENGTH_LONG).show();
+            // Not quite sure this is the right approach
+            Intent intent = new Intent(getBaseContext(), SignUpActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else {
+            SQLiteJDBCforCredential sqlite = new SQLiteJDBCforCredential(s);
+            sqlite.addCredential(new Credential(id, password));
+            Intent intent = new Intent(getBaseContext(), FoodJointControllerActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
-    public boolean validate(String firstName, String lastName, String email, String id, String password) {
+    public void validate(String firstName, String lastName, String email, String id, String password) {
         boolean valid = true;
 
-        // todo more error checking here
         if (firstName.isEmpty()) {
             firstNameText.setError("cannot be empty");
             valid = false;
@@ -100,19 +105,24 @@ public class SignUpActivity extends AppCompatActivity {
             valid = false;
         }
 
-        if (id.isEmpty() || id.length() < 4 ) {
-            idText.setError("id must be longer than 4 characters");
+        if (id.isEmpty() || id.length() < 2) {
+            idText.setError("id cannot be empty nor it must be longer than a character");
             valid = false;
-        } else {
-            idText.setError(null);
-        }
-
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            passwordText.setError("between 4 and 10 alphanumeric characters");
+        } else if(id.length() > 100) {
+            idText.setError("id cannot be longer than 100 characters");
             valid = false;
-        } else {
-            passwordText.setError(null);
         }
-        return valid;
+        if (password.isEmpty() || password.length() < 5) {
+            passwordText.setError("password must be longer than 4 characters");
+            valid = false;
+        } else if (password.length() > 60)
+        {
+            passwordText.setError("password cannot be longer than 60 characters");
+            valid = false;
+        }
+        else {
+          //  passwordText.setError(null);
+        }
+//        return valid;
     }
 }

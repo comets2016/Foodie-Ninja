@@ -86,10 +86,11 @@ public class SQLiteJDBCforCredential extends SQLiteOpenHelper {
 //    }
 
     // Creating Tables
+    // Ensured the ID is unique
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String CREATE_CREDENTIAL_TABLE = "CREATE TABLE " + TABLE_CREDENTIAL + "("
-                + KEY_ID + " TEXT PRIMARY KEY," + KEY_PASSWORD + " TEXT)";
+                + KEY_ID + " TEXT PRIMARY KEY UNIQUE," + KEY_PASSWORD + " TEXT)";
         sqLiteDatabase.execSQL(CREATE_CREDENTIAL_TABLE);
     }
 
