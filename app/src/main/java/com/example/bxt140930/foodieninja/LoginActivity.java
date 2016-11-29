@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (returnCode != 200) {
                         // Either id or password not valid to login.
-                        Toast.makeText(c, c.getString(R.string.error_invalid_User_Password + returnCode), Toast.LENGTH_LONG).show();
+                        Toast.makeText(c, c.getString(R.string.error_id_password + returnCode), Toast.LENGTH_LONG).show();
                         // Not quite sure this is the right approach
                         Intent intent = new Intent(getBaseContext(), LoginActivity.class);
                         startActivity(intent);

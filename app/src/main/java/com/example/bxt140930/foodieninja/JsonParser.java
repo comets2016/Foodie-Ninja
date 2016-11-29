@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ import communication.HTTPGetCommunication;
 import communication.HTTPGetFriendlyCommunication;
 import communication.HTTPPostJsonArrayCommunication;
 import communication.HTTPPostJsonCommunication;
+
+import static android.R.attr.data;
 
 /**
  * Created by bxt140930 on 11/9/2016.
@@ -136,18 +139,44 @@ public class JsonParser {
         return CM.SendResuest(C, "api/authentication", params);
     }
 
-    public String SignUpRequest(Credential Cr)
-    {
-        Map<String,Object> params = new LinkedHashMap<>();
-        params.put("login", Cr.getUsername());
-        params.put("firstName", Cr.getPassword());
-        params.put("lastName", Cr.getPassword());
-        params.put("email", Cr.getPassword());
-        params.put("langKey", "en");
-        params.put("password", Cr.getPassword());
+    public String SignUpRequest(Credential Cr) {
 
-        HTTPCredentialCommunication CM = new HTTPCredentialCommunication();
-        return CM.SendResuest(C, "api/register", params);
+        JSONObject JO = new JSONObject();
+        try {
+            JO.put("login", Cr.getUsername());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            JO.put("firstName", Cr.getFirstName());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            JO.put("lastName", Cr.getLastName());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            JO.put("email", Cr.getEmail());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            JO.put("langKey", "en");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            JO.put("password", Cr.getPassword());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        HTTPPostJsonCommunication CM = new HTTPPostJsonCommunication();
+        String result = CM.SendResuest(C, "api/register", JO);
+
+        return result;
     }
 
     public Order GetTicketWithOrder(Order O)

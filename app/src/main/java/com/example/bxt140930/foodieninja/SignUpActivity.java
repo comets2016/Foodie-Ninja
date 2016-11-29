@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import communication.CommunicationManager;
@@ -36,6 +37,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText idText;
     EditText passwordText;
     Context s;
+
     public SignUpActivity()
     {
         this.s = this;
@@ -49,80 +51,84 @@ public class SignUpActivity extends AppCompatActivity {
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signup();
+//                _signupButton.setEnabled(false);
+                final EditText firstNameEditText = (EditText) findViewById(R.id.ETFirstName);
+                final EditText lastNameEditText = (EditText) findViewById(R.id.ETLastName);
+                final EditText emailEditText = (EditText) findViewById(R.id.ETEmail);
+                final EditText idEditText = (EditText) findViewById(R.id.ETId);
+                final EditText passwordEditText = (EditText) findViewById(R.id.ETPassword);
+
+                if(firstNameEditText.getText().length() == 0)
+                {
+                    firstNameEditText.setError(s.getString(R.string.error_signup_firstName));
+                }
+
+                String firstName = firstNameEditText.getText().toString();
+
+                if(lastNameEditText.getText().length() == 0)
+                {
+                    lastNameEditText.setError(s.getString(R.string.error_signup_lastName));
+                }
+                String lastName = lastNameEditText.getText().toString();
+
+                String email = emailEditText.getText().toString();
+                String id = idEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
+
+                JsonParser JP = new JsonParser(s);
+                Credential CR = new Credential(id, firstName, lastName, email, password);
+
+
+                String returnString = JP.SignUpRequest(CR);
+                Context context = getApplicationContext();
+
+                if (returnString == null)
+                {
+                    Toast.makeText(context, "Duplicated username or email address", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getBaseContext(), SignUpActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else
+                {
+                    SQLiteJDBCforCredential sqlite = new SQLiteJDBCforCredential(s);
+                    sqlite.addCredential(new Credential(id, password));
+                    Intent intent = new Intent(getBaseContext(), FoodJointControllerActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
     }
-    public void signup() {
-//        Log.d(TAG, "Signup");
 
-        _signupButton.setEnabled(false);
-
-        String firstName = firstNameText.getText().toString();
-        String lastName = lastNameText.getText().toString();
-        String email = emailText.getText().toString();
-        String id = idText.getText().toString();
-        String password = passwordText.getText().toString();
-
-        validate(firstName, lastName, email, id, password);
-        JsonParser JP = new JsonParser(s);
-        Credential CR = new Credential(id, firstName, lastName, email, password);
-
-        String returnString = JP.SignUpRequest(CR);
-        int returnCode = Integer.parseInt(returnString);
-
-        if (returnCode != 201) {
-            // Something went wrong so
-            Toast.makeText(s, s.getString(R.string.error_signup_fail + returnCode), Toast.LENGTH_LONG).show();
-            // Not quite sure this is the right approach
-            Intent intent = new Intent(getBaseContext(), SignUpActivity.class);
-            startActivity(intent);
-            finish();
-        }
-        else {
-            SQLiteJDBCforCredential sqlite = new SQLiteJDBCforCredential(s);
-            sqlite.addCredential(new Credential(id, password));
-            Intent intent = new Intent(getBaseContext(), FoodJointControllerActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    }
     public void validate(String firstName, String lastName, String email, String id, String password) {
-        boolean valid = true;
+//        boolean validate = true;
 
-        if (firstName.isEmpty()) {
-            firstNameText.setError("cannot be empty");
-            valid = false;
+        if (firstName.isEmpty() || firstName == null) {
+            String errormessage = s.getString(R.string.error_signup_firstName);
         }
 
-        if (lastName.isEmpty()){
-            lastNameText.setError("cannot be empty");
-            valid = false;
+        if (lastName.isEmpty() || lastName == null){
+//            lastNameText.setError("cannot be empty");
         }
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailText.setError("enter a valid email address");
-            valid = false;
+//            emailText.setError("enter a valid email address");
         }
 
         if (id.isEmpty() || id.length() < 2) {
-            idText.setError("id cannot be empty nor it must be longer than a character");
-            valid = false;
+//            idText.setError("id cannot be empty nor it must be longer than a character");
         } else if(id.length() > 100) {
-            idText.setError("id cannot be longer than 100 characters");
-            valid = false;
+//            idText.setError("id cannot be longer than 100 characters");
         }
         if (password.isEmpty() || password.length() < 5) {
-            passwordText.setError("password must be longer than 4 characters");
-            valid = false;
+//            passwordText.setError("password must be longer than 4 characters");
         } else if (password.length() > 60)
         {
-            passwordText.setError("password cannot be longer than 60 characters");
-            valid = false;
+//            passwordText.setError("password cannot be longer than 60 characters");
         }
         else {
           //  passwordText.setError(null);
         }
-//        return valid;
     }
 }

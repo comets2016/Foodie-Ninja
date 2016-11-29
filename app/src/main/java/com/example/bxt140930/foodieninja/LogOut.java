@@ -24,6 +24,7 @@ public class LogOut extends AppCompatActivity{
             public void onClick(View view) {
                 logout(view);
             }
+        });
     }
 
     public void logout(View view){

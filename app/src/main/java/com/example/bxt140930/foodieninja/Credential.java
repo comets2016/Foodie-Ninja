@@ -32,7 +32,7 @@ public class Credential {
     }
 
     public String getLastName() {
-        return firstName;
+        return lastName;
     }
 
     public void setLastName(String firstName) {
@@ -40,7 +40,7 @@ public class Credential {
     }
 
     public String getEmail() {
-        return firstName;
+        return email;
     }
 
     public void setEmail(String firstName) {
