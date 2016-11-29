@@ -8,6 +8,10 @@ public class Credential {
 
     String username;
     String password;
+    String firstName;
+    String lastName;
+    String email;
+
     // Empty constructor
     public Credential(){
 
@@ -16,6 +20,39 @@ public class Credential {
     // constructor
     public Credential(String id, String password){
         this.username = id;
+        this.password = password;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return firstName;
+    }
+
+    public void setLastName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getEmail() {
+        return firstName;
+    }
+
+    public void setEmail(String firstName) {
+        this.firstName = firstName;
+    }
+
+    // constructor
+    public Credential(String id, String firstName, String lastName, String email, String password){
+        this.username = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
         this.password = password;
     }
 

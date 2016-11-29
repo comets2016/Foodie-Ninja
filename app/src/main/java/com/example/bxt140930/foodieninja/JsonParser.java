@@ -136,6 +136,20 @@ public class JsonParser {
         return CM.SendResuest(C, "api/authentication", params);
     }
 
+    public String SignUpRequest(Credential Cr)
+    {
+        Map<String,Object> params = new LinkedHashMap<>();
+        params.put("login", Cr.getUsername());
+        params.put("firstName", Cr.getPassword());
+        params.put("lastName", Cr.getPassword());
+        params.put("email", Cr.getPassword());
+        params.put("langKey", "en");
+        params.put("password", Cr.getPassword());
+
+        HTTPCredentialCommunication CM = new HTTPCredentialCommunication();
+        return CM.SendResuest(C, "api/register", params);
+    }
+
     public Order GetTicketWithOrder(Order O)
     {
         try
