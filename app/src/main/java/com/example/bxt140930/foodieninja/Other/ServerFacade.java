@@ -1,4 +1,4 @@
-package com.example.bxt140930.foodieninja;
+package com.example.bxt140930.Foodieninja.Other;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -11,19 +11,24 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import communication.HTTPCredentialCommunication;
-import communication.HTTPGetCommunication;
-import communication.HTTPGetFriendlyCommunication;
-import communication.HTTPPostJsonArrayCommunication;
-import communication.HTTPPostJsonCommunication;
+import com.example.bxt140930.Foodieninja.Communication.HTTPCredentialCommunication;
+import com.example.bxt140930.Foodieninja.Communication.HTTPGetCommunication;
+import com.example.bxt140930.Foodieninja.Communication.HTTPGetFriendlyCommunication;
+import com.example.bxt140930.Foodieninja.Communication.HTTPPostJsonArrayCommunication;
+import com.example.bxt140930.Foodieninja.Entities.Credential;
+import com.example.bxt140930.Foodieninja.Entities.Menu;
+import com.example.bxt140930.Foodieninja.Entities.Order;
+import com.example.bxt140930.Foodieninja.Entities.OrderItem;
+import com.example.bxt140930.Foodieninja.Entities.Restaurants;
+import com.example.bxt140930.Foodieninja.R;
 
 /**
  * Created by bxt140930 on 11/9/2016.
  */
 
-public class JsonParser {
+public class ServerFacade {
     Context C;
-    public JsonParser(Context C)
+    public ServerFacade(Context C)
     {
         this.C = C;
     }
@@ -135,21 +140,6 @@ public class JsonParser {
         HTTPCredentialCommunication CM = new HTTPCredentialCommunication();
         return CM.SendResuest(C, "api/authentication", params);
     }
-
-    public String SignUpRequest(Credential Cr)
-    {
-        Map<String,Object> params = new LinkedHashMap<>();
-        params.put("login", Cr.getUsername());
-        params.put("firstName", Cr.getPassword());
-        params.put("lastName", Cr.getPassword());
-        params.put("email", Cr.getPassword());
-        params.put("langKey", "en");
-        params.put("password", Cr.getPassword());
-
-        HTTPCredentialCommunication CM = new HTTPCredentialCommunication();
-        return CM.SendResuest(C, "api/register", params);
-    }
-
     public Order GetTicketWithOrder(Order O)
     {
         try

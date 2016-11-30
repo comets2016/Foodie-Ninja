@@ -1,4 +1,4 @@
-package com.example.bxt140930.foodieninja;
+package com.example.bxt140930.Foodieninja;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,9 +8,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.io.Serializable;
+import com.example.bxt140930.Foodieninja.Entities.Order;
+import com.example.bxt140930.Foodieninja.Other.ServerFacade;
 
 public class PaymentControllerActivity extends AppCompatActivity {
 
@@ -20,7 +19,7 @@ public class PaymentControllerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_payment);
 
         Order O = (Order)getIntent().getSerializableExtra("Order");
-        JsonParser JP = new JsonParser(this);
+        ServerFacade JP = new ServerFacade(this);
         O.setTotal(JP.GetTotal(O));
 
         TextView TVTotal = (TextView) findViewById(R.id.TVPayment);

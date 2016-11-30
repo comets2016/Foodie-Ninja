@@ -1,4 +1,4 @@
-package com.example.bxt140930.foodieninja;
+package com.example.bxt140930.Foodieninja;
 
 
 import android.content.Context;
@@ -13,13 +13,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.bxt140930.Foodieninja.Entities.Menu;
+
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 class MenuListAdapter extends BaseAdapter {
 
     Context context;
-    ArrayList<Menu> Menu;
+    ArrayList<com.example.bxt140930.Foodieninja.Entities.Menu> Menu;
     OrderItemListAdapter OILA;
     private static LayoutInflater inflater = null;
 

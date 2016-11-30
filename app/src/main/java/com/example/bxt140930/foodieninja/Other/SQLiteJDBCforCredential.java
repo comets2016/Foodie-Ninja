@@ -1,10 +1,12 @@
-package com.example.bxt140930.foodieninja;
+package com.example.bxt140930.Foodieninja.Other;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.bxt140930.Foodieninja.Entities.Credential;
 
 /**
  * Created by jxj050100 on 11/14/2016.

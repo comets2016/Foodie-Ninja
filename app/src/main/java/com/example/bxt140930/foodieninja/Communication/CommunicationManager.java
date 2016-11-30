@@ -1,10 +1,10 @@
-package communication;
+package com.example.bxt140930.Foodieninja.Communication;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.example.bxt140930.foodieninja.R;
+import com.example.bxt140930.Foodieninja.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;

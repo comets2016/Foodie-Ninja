@@ -1,6 +1,7 @@
-package com.example.bxt140930.foodieninja;
+package com.example.bxt140930.Foodieninja;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,6 +14,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.bxt140930.Foodieninja.Entities.Restaurants;
 
 import java.util.ArrayList;
 
@@ -76,6 +79,7 @@ class RestaurantListAdapter extends BaseAdapter {
                 Intent I = new Intent(context, MenuControllerActivity.class);
                 I.putExtra("ID",restaurantsList.get(position).getId());
                 context.startActivity(I);
+                ((Activity)context).overridePendingTransition(R.anim.rtl_slide_in, R.anim.rtl_slide_out);
             }
         });
 

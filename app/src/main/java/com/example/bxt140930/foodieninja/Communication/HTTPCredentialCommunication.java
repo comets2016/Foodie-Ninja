@@ -1,9 +1,7 @@
-package communication;
+package com.example.bxt140930.Foodieninja.Communication;
 
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Map;
 

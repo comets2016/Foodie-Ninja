@@ -1,8 +1,12 @@
-package com.example.bxt140930.foodieninja;
+package com.example.bxt140930.Foodieninja;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
+
+import com.example.bxt140930.Foodieninja.Entities.Restaurants;
+import com.example.bxt140930.Foodieninja.Other.LoginSinglton;
+import com.example.bxt140930.Foodieninja.Other.ServerFacade;
 
 import java.util.ArrayList;
 
@@ -15,7 +19,7 @@ public class FoodJointControllerActivity extends AppCompatActivity {
 
         LoginSinglton.getInstance().validateUser(this);
 
-        JsonParser JP = new JsonParser(this);
+        ServerFacade JP = new ServerFacade(this);
         ArrayList<Restaurants> ListOfRestaurants = JP.GetRestaurants();
 
         ListView listview = (ListView) findViewById(R.id.RestaurantList);

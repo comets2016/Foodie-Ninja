@@ -1,4 +1,4 @@
-package com.example.bxt140930.foodieninja;
+package com.example.bxt140930.Foodieninja;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

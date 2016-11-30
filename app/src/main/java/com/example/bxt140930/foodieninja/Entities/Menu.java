@@ -1,15 +1,17 @@
-package com.example.bxt140930.foodieninja;
+package com.example.bxt140930.Foodieninja.Entities;
+
+import java.io.Serializable;
 
 /**
  * Created by bxt140930 on 11/9/2016.
  */
 
-public class Restaurants {
+public class Menu  implements Serializable {
     int id;
     String name;
     String imageUrl;
-    String WorkingHours;
-    double EstimatedWait;
+    String Description;
+    double Price;
 
     public int getId() {
         return id;
@@ -18,12 +20,12 @@ public class Restaurants {
     public void setId(int id) {
         this.id = id;
     }
-    public String getWorkingHours() {
-        return WorkingHours;
+    public String getDescription() {
+        return Description;
     }
 
-    public void setWorkingHours(String workingHours) {
-        WorkingHours = workingHours;
+    public void setDescription(String Description) {
+        Description = Description;
     }
     public String getName() {
         return name;
@@ -41,11 +43,11 @@ public class Restaurants {
         this.imageUrl = imageUrl;
     }
 
-    public double getEstimatedWait() {
-        return EstimatedWait;
+    public double getPrice() {
+        return Price;
     }
 
-    public void setEstimatedWait(double EstimatWaitPerPerson) {
-        this.EstimatedWait = EstimatWaitPerPerson;
+    public void setPrice(double Price) {
+        this.Price = Price;
     }
 }

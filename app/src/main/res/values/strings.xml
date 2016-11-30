@@ -13,10 +13,8 @@
     <string name="error_invalid_password">The password needs to be longer than 4 characters</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="error_invalid_User_Password">Either id or password is not valid or doesn't exist</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="error_invalid_User_Password">Either id or password is not valid or does not exist</string>
+    <string name="permission_rationale">Contacts permissions are needed for providing email completions</string>
     <string name="title_activity_restaurant">Restaurant</string>
     <string name="title_activity_eticket">ETicket</string>
     <string name="title_activity_payment">Payment</string>
@@ -25,5 +23,6 @@
     <string name="EstimatedWaitTime">Estimated Wait Time:</string>
     <string name="Downloading">Downloading Data..</string>
     <string name="Wait">Please wait</string>
-    <string name="PaymentAmount">Payment Amount:</string>
+    <string name="PaymentAmount">Payment Amount:</string>error_signup_fail
+    <string name="error_signup_fail">Sign Up Failed</string>
 </resources>

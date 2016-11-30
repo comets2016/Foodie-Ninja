@@ -1,4 +1,4 @@
-package com.example.bxt140930.foodieninja;
+package com.example.bxt140930.Foodieninja.Entities;
 
 /**
  * Created by jxj050100 on 11/15/2016.

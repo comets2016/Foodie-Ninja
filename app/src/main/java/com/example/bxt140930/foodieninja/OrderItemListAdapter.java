@@ -1,4 +1,4 @@
-package com.example.bxt140930.foodieninja;
+package com.example.bxt140930.Foodieninja;
 
 
 import android.content.Context;
@@ -12,6 +12,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.bxt140930.Foodieninja.Entities.Menu;
+import com.example.bxt140930.Foodieninja.Entities.OrderItem;
 
 import java.util.ArrayList;
 

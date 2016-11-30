@@ -1,23 +1,20 @@
-package com.example.bxt140930.foodieninja;
+package com.example.bxt140930.Foodieninja;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.bxt140930.Foodieninja.Entities.Credential;
 import org.json.JSONObject;
-
-import communication.CommunicationManager;
-
-/**
- * Created by jxj050100 on 11/15/2016.
- */
+import com.example.bxt140930.Foodieninja.Communication.CommunicationManager;
+import com.example.bxt140930.Foodieninja.Other.SQLiteJDBCforCredential;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -65,7 +62,7 @@ public class SignUpActivity extends AppCompatActivity {
         String password = passwordText.getText().toString();
 
         validate(firstName, lastName, email, id, password);
-        JsonParser JP = new JsonParser(s);
+        ServerFacade JP = new ServerFacade(s);
         Credential CR = new Credential(id, firstName, lastName, email, password);
 
         String returnString = JP.SignUpRequest(CR);

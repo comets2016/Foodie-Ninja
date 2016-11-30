@@ -1,11 +1,10 @@
-package com.example.bxt140930.foodieninja;
+package com.example.bxt140930.Foodieninja.Other;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
-import org.json.JSONObject;
+import com.example.bxt140930.Foodieninja.LoginControllerActivity;
 
 /**
  * Created by jxj050100 on 11/14/2016.
@@ -25,7 +24,7 @@ public class LoginSinglton
         SQLiteJDBCforCredential sqlite = new SQLiteJDBCforCredential(c);
         if(!sqlite.getAllContacts())
         {
-            Intent appInfo = new Intent(c, LoginActivity.class);
+            Intent appInfo = new Intent(c, LoginControllerActivity.class);
             c.startActivity(appInfo);
             ((Activity) c).finish();
         }

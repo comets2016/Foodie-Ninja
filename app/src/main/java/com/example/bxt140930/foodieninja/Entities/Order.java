@@ -1,4 +1,4 @@
-package com.example.bxt140930.foodieninja;
+package com.example.bxt140930.Foodieninja.Entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
