@@ -10,6 +10,7 @@ import com.example.bxt140930.Foodieninja.Entities.OrderItem;
 import com.example.bxt140930.Foodieninja.Entities.Restaurants;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ import com.example.bxt140930.Foodieninja.Communication.HTTPGetCommunication;
 import com.example.bxt140930.Foodieninja.Communication.HTTPGetFriendlyCommunication;
 import com.example.bxt140930.Foodieninja.Communication.HTTPPostJsonArrayCommunication;
 import com.example.bxt140930.Foodieninja.Communication.HTTPPostJsonCommunication;
+
+import static android.R.attr.data;
 
 /**
  * Created by bxt140930 on 11/9/2016.
@@ -142,18 +145,44 @@ public class ServerFacade {
         return CM.SendResuest(C, "api/authentication", params);
     }
 
-    public String SignUpRequest(Credential Cr)
-    {
-        Map<String,Object> params = new LinkedHashMap<>();
-        params.put("login", Cr.getUsername());
-        params.put("firstName", Cr.getPassword());
-        params.put("lastName", Cr.getPassword());
-        params.put("email", Cr.getPassword());
-        params.put("langKey", "en");
-        params.put("password", Cr.getPassword());
+    public String SignUpRequest(Credential Cr) {
 
-        HTTPCredentialCommunication CM = new HTTPCredentialCommunication();
-        return CM.SendResuest(C, "api/register", params);
+        JSONObject JO = new JSONObject();
+        try {
+            JO.put("login", Cr.getUsername());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            JO.put("firstName", Cr.getFirstName());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            JO.put("lastName", Cr.getLastName());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            JO.put("email", Cr.getEmail());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            JO.put("langKey", "en");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            JO.put("password", Cr.getPassword());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        HTTPPostJsonCommunication CM = new HTTPPostJsonCommunication();
+        String result = CM.SendResuest(C, "api/register", JO);
+
+        return result;
     }
 
     public Order GetTicketWithOrder(Order O)
