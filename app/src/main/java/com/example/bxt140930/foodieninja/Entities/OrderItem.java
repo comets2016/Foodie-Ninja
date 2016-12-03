@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 
 public class OrderItem  implements Serializable {
-    Menu Item;
+    com.example.bxt140930.Foodieninja.Entities.Item Item;
     int Quantuty;
 
     public int getQuantuty() {
@@ -18,11 +18,11 @@ public class OrderItem  implements Serializable {
         Quantuty = quantuty;
     }
 
-    public Menu getItem() {
+    public com.example.bxt140930.Foodieninja.Entities.Item getItem() {
         return Item;
     }
 
-    public void setItem(Menu item) {
+    public void setItem(com.example.bxt140930.Foodieninja.Entities.Item item) {
         Item = item;
     }
 }

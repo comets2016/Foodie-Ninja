@@ -6,12 +6,12 @@ import java.io.Serializable;
  * Created by bxt140930 on 11/9/2016.
  */
 
-public class Menu  implements Serializable {
+public class FoodJoint implements Serializable {
     int id;
     String name;
     String imageUrl;
-    String Description;
-    double Price;
+    String WorkingHours;
+    double EstimatedWait;
 
     public int getId() {
         return id;
@@ -20,13 +20,15 @@ public class Menu  implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
-    public String getDescription() {
-        return Description;
+
+    public String getWorkingHours() {
+        return WorkingHours;
     }
 
-    public void setDescription(String Description) {
-        Description = Description;
+    public void setWorkingHours(String workingHours) {
+        WorkingHours = workingHours;
     }
+
     public String getName() {
         return name;
     }
@@ -43,11 +45,11 @@ public class Menu  implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    public double getPrice() {
-        return Price;
+    public double getEstimatedWait() {
+        return EstimatedWait;
     }
 
-    public void setPrice(double Price) {
-        this.Price = Price;
+    public void setEstimatedWait(double EstimatWaitPerPerson) {
+        this.EstimatedWait = EstimatWaitPerPerson;
     }
 }

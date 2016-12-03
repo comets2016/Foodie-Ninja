@@ -35,13 +35,13 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             app:srcCompat="@mipmap/subway"
-            android:id="@+id/imageView"/>
+            android:id="@+id/IVLogo" />
 
         <TextView
             android:text="Subway"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/TVResNAme"
+            android:id="@+id/TVResName"
             android:gravity="center_vertical|center_horizontal"
             android:textSize="48sp" />
     </LinearLayout>
@@ -55,24 +55,27 @@
 
         <TextView
             android:text="SW384"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/rytn"
+            android:id="@+id/TVNumber"
             android:gravity="center_vertical|center_horizontal"
-            android:textSize="60sp" />
+            android:textSize="60sp"
+            android:layout_weight="1" />
 
         <ImageView
             app:srcCompat="@mipmap/qr"
-            android:id="@+id/imrm"
-            android:layout_width="match_parent"
-            android:layout_height="153dp" />
+            android:id="@+id/IVQR"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_weight="0" />
+
     </LinearLayout>
 
     <TextView
-        android:text="Ticket date: 10/18/16 "
+        android:text="Ticket date:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView2"
+        android:id="@+id/TVDate"
         android:elevation="1dp"
         android:gravity="center_vertical|center_horizontal"
         android:textSize="24sp"
@@ -80,10 +83,10 @@
         android:layout_marginBottom="10dp" />
 
     <TextView
-        android:text="Estimated serving time: 02:47 PM "
+        android:text="Estimated Wait Time:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView3"
+        android:id="@+id/TVWaitTime"
         android:gravity="center_vertical|center_horizontal"
         android:textSize="18sp" />
 

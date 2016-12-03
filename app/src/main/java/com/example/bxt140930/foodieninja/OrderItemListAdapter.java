@@ -1,6 +1,5 @@
 package com.example.bxt140930.Foodieninja;
 
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,22 +11,22 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.bxt140930.Foodieninja.Entities.Menu;
-import com.example.bxt140930.Foodieninja.Entities.OrderItem;
-
-import java.util.ArrayList;
+import com.example.bxt140930.Foodieninja.Entities.FoodJoint;
+import com.example.bxt140930.Foodieninja.Entities.Item;
+import com.example.bxt140930.Foodieninja.Entities.Order;
 
 class OrderItemListAdapter extends BaseAdapter {
 
     Context context;
-    ArrayList<OrderItem> Items;
+    Order Order;
     private static LayoutInflater inflater = null;
 
-    public OrderItemListAdapter(Context context, ArrayList<OrderItem> Items) {
+    public OrderItemListAdapter(Context context, Order Order) {
         // TODO Auto-generated constructor stub
         this.context = context;
-        this.Items = Items;
+        this.Order = Order;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -35,29 +34,21 @@ class OrderItemListAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
-        return Items.size();
+        return Order.getOrderItems().size();
     }
 
-    public void AddItem(Menu Item) {
-        for(OrderItem I : Items)
-            if(I.getItem().getId() == Item.getId())
-            {
-                I.setQuantuty(I.getQuantuty() + 1);
-                notifyDataSetChanged();
-                return;
-            }
-        OrderItem OI = new OrderItem();
-        OI.setItem(Item);
-        OI.setQuantuty(1);
-        Items.add(OI);
+    public void AddItem(Item Item) {
+        if (Order == null)
+            Order = new Order(new FoodJoint());
+        if (!Order.AddOrderItems(Item))
+            Toast.makeText(context.getApplicationContext(), context.getString(R.string.exceed_items), Toast.LENGTH_LONG);
         notifyDataSetChanged();
-        return;
     }
 
     @Override
     public Object getItem(int position) {
         // TODO Auto-generated method stub
-        return Items.get(position);
+        return Order.getOrderItems().get(position);
     }
 
     @Override
@@ -75,12 +66,12 @@ class OrderItemListAdapter extends BaseAdapter {
 
 
         TextView text = (TextView) vi.findViewById(R.id.TVItemName);
-        text.setText(Items.get(position).getItem().getName());
+        text.setText(Order.getOrderItems().get(position).getItem().getName());
 
         text = (TextView) vi.findViewById(R.id.TVItemQuantity);
-        text.setText(String.valueOf(Items.get(position).getQuantuty()));
+        text.setText(String.valueOf(Order.getOrderItems().get(position).getQuantuty()));
 
-        byte[] decodedString = Base64.decode(Items.get(position).getItem().getImageUrl(), Base64.DEFAULT);
+        byte[] decodedString = Base64.decode(Order.getOrderItems().get(position).getItem().getImageUrl(), Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         ImageView IV = (ImageView) vi.findViewById(R.id.IVItemImage);
         IV.setImageBitmap(decodedByte);
@@ -89,7 +80,7 @@ class OrderItemListAdapter extends BaseAdapter {
         IMGAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Items.get(position).setQuantuty(Items.get(position).getQuantuty() + 1);
+                AddItem(Order.getOrderItems().get(position).getItem());
                 notifyDataSetChanged();
             }
         });
@@ -98,14 +89,13 @@ class OrderItemListAdapter extends BaseAdapter {
         IMGRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Items.get(position).getQuantuty() <= 1)
-                    Items.remove(position);
+                if (Order.getOrderItems().get(position).getQuantuty() <= 1)
+                    Order.getOrderItems().remove(position);
                 else
-                    Items.get(position).setQuantuty(Items.get(position).getQuantuty() - 1);
+                    Order.getOrderItems().get(position).setQuantuty(Order.getOrderItems().get(position).getQuantuty() - 1);
                 notifyDataSetChanged();
             }
         });
-
         return vi;
     }
 }

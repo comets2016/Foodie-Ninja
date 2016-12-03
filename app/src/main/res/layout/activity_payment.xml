@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:inputType="number"
             android:ems="10"
-            android:id="@+id/editText"
+            android:id="@+id/EDCometID"
             android:layout_weight="1"
             android:hint="UTD ID" />
 
@@ -119,7 +119,7 @@
             android:layout_height="wrap_content"
             android:inputType="number"
             android:ems="10"
-            android:id="@+id/editText2"
+            android:id="@+id/ETCreditNumber"
             android:layout_weight="1"
             android:hint="Card Number" />
 

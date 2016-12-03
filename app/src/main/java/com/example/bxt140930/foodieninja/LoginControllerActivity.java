@@ -12,10 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bxt140930.Foodieninja.Entities.Credential;
-import com.example.bxt140930.Foodieninja.Other.SQLiteJDBCforCredential;
+import com.example.bxt140930.Foodieninja.Other.DBAdapter;
 import com.example.bxt140930.Foodieninja.Other.ServerFacade;
-
-import static com.example.bxt140930.Foodieninja.R.id.LoginActivity;
 
 public class LoginControllerActivity extends AppCompatActivity {
     String userNameForServer="";
@@ -57,13 +55,13 @@ public class LoginControllerActivity extends AppCompatActivity {
                     int returnCode = Integer.parseInt(returnString);
                     if (returnCode != 200) {
                         // Either id or password not valid to login.
-                        Toast.makeText(c, c.getString(R.string.error_invalid_User_Password + returnCode), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), c.getString(R.string.error_invalid_User_Password + returnCode), Toast.LENGTH_LONG).show();
                         // Not quite sure this is the right approach
                         Intent intent = new Intent(getBaseContext(), LoginControllerActivity.class);
                         startActivity(intent);
                         finish();
                     } else {
-                        SQLiteJDBCforCredential sqlite = new SQLiteJDBCforCredential(c);
+                        DBAdapter sqlite = new DBAdapter(c);
                         sqlite.addCredential(new Credential(userNameForServer, passwordForServer));
                         login.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -89,17 +87,18 @@ public class LoginControllerActivity extends AppCompatActivity {
                                 finish();
                             }
                         });
-
-                        signUp.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
-                                // might not need to pass in the request_signup code
-                                startActivityForResult(intent, REQUEST_SIGNUP);
-                            }
-                        });
                     }
                 }
             });
+
+
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivityForResult(intent, REQUEST_SIGNUP);
+                finish();
+            }
+        });
     }
 }

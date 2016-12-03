@@ -4,8 +4,11 @@ import android.content.Context;
 import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Date;
+import java.sql.ParameterMetaData;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -15,11 +18,13 @@ import com.example.bxt140930.Foodieninja.Communication.HTTPCredentialCommunicati
 import com.example.bxt140930.Foodieninja.Communication.HTTPGetCommunication;
 import com.example.bxt140930.Foodieninja.Communication.HTTPGetFriendlyCommunication;
 import com.example.bxt140930.Foodieninja.Communication.HTTPPostJsonArrayCommunication;
+import com.example.bxt140930.Foodieninja.Communication.HTTPPostJsonCommunication;
 import com.example.bxt140930.Foodieninja.Entities.Credential;
-import com.example.bxt140930.Foodieninja.Entities.Menu;
+import com.example.bxt140930.Foodieninja.Entities.ETicket;
+import com.example.bxt140930.Foodieninja.Entities.Item;
 import com.example.bxt140930.Foodieninja.Entities.Order;
 import com.example.bxt140930.Foodieninja.Entities.OrderItem;
-import com.example.bxt140930.Foodieninja.Entities.Restaurants;
+import com.example.bxt140930.Foodieninja.Entities.FoodJoint;
 import com.example.bxt140930.Foodieninja.R;
 
 /**
@@ -32,9 +37,10 @@ public class ServerFacade {
     {
         this.C = C;
     }
-    public ArrayList<Restaurants> GetRestaurants()
+
+    public ArrayList<FoodJoint> GetFoodJointsList()
     {
-        ArrayList<Restaurants> RestaurantsList = new ArrayList<>();
+        ArrayList<FoodJoint> FoodJointList = new ArrayList<>();
         try
         {
             HTTPGetCommunication CM = new HTTPGetCommunication();
@@ -44,7 +50,7 @@ public class ServerFacade {
             for(int i = 0; i < JSonArray.length(); i++)
             {
                 JSONObject JObj = JSonArray.getJSONObject(i);
-                Restaurants Res = new Restaurants();
+                FoodJoint Res = new FoodJoint();
                 if(JObj.isNull("id"))
                     continue;
                 Res.setId(JObj.getInt("id"));
@@ -57,19 +63,20 @@ public class ServerFacade {
                     Res.setWorkingHours(JObj.getString("workingHours"));
                 if(!JObj.isNull("EstimatedWait"))
                     Res.setEstimatedWait(JObj.getDouble("EstimatedWait"));
-                RestaurantsList.add(Res);
+                FoodJointList.add(Res);
             }
-            return RestaurantsList;
+            return FoodJointList;
         }
         catch(Exception Ex)
         {
             Toast.makeText(C, C.getString(R.string.ErrorJsonParsing), Toast.LENGTH_LONG).show();
-            return RestaurantsList;
+            return FoodJointList;
         }
     }
-    public ArrayList<Menu> GetMenu(int FoodJointID)
+
+    public ArrayList<Item> GetMenu(int FoodJointID)
     {
-        ArrayList<Menu> Menu = new ArrayList<>();
+        ArrayList<Item> Menu = new ArrayList<>();
         try
         {
             ArrayList<String> Params = new ArrayList<>();
@@ -80,7 +87,7 @@ public class ServerFacade {
             for(int i = 0; i < JSonArray.length(); i++)
             {
                 JSONObject JObj = JSonArray.getJSONObject(i);
-                Menu Item = new Menu();
+                Item Item = new Item();
                 if(JObj.isNull("id"))
                     continue;
                 Item.setId(JObj.getInt("id"));
@@ -117,13 +124,7 @@ public class ServerFacade {
             HTTPPostJsonArrayCommunication CM = new HTTPPostJsonArrayCommunication();
             String Result = CM.SendResuest(C, "api/menu-items/price", JA);
 
-            if(true)
-                return Double.valueOf(Result);
-
-            JSONObject JObj = new JSONObject(Result);
-            if(JObj.isNull("total"))
-                return -1;
-            return JObj.getDouble("total");
+            return Double.valueOf(Result);
         }
         catch(Exception Ex)
         {
@@ -140,34 +141,121 @@ public class ServerFacade {
         HTTPCredentialCommunication CM = new HTTPCredentialCommunication();
         return CM.SendResuest(C, "api/authentication", params);
     }
-    public Order GetTicketWithOrder(Order O)
+
+    public String SignUpRequest(Credential Cr) {
+
+        JSONObject JO = new JSONObject();
+        try {
+            JO.put("login", Cr.getUsername());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            JO.put("firstName", Cr.getFirstName());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            JO.put("lastName", Cr.getLastName());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            JO.put("email", Cr.getEmail());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            JO.put("langKey", "en");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            JO.put("password", Cr.getPassword());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        HTTPPostJsonCommunication CM = new HTTPPostJsonCommunication();
+        String result = CM.SendResuest(C, "api/register", JO);
+
+        return result;
+    }
+
+    public ETicket PlaceOrder(Order O)
     {
+        ETicket ET = new ETicket();
         try
         {
+            JSONObject JO = new JSONObject();
+            JO.put("paymentInfo", O.getP().getCardNumber());
+            JO.put("userName", LoginSinglton.getInstance().GetUserId(C));
+            JO.put("foodJointId", O.getFoodJoint().getId());
+
             JSONArray JA = new JSONArray();
             for(OrderItem OI : O.getOrderItems())
             {
-                JSONObject JO = new JSONObject();
-                JO.put("id", OI.getItem().getId());
-                JO.put("quantity", OI.getQuantuty());
-                JA.put(JO);
+                JSONObject JOA = new JSONObject();
+                JOA.put("id", OI.getItem().getId());
+                JOA.put("quantity", OI.getQuantuty());
+                JA.put(JOA);
             }
-            HTTPPostJsonArrayCommunication CM = new HTTPPostJsonArrayCommunication();
-            String Result = CM.SendResuest(C, "api/menu-items/price", JA);
+            JO.put("items", JA);
 
-            if(true)
-                return null;
+            HTTPPostJsonCommunication CM = new HTTPPostJsonCommunication();
+            String Result = CM.SendResuest(C, "api/food-orders/new", JO);
 
             JSONObject JObj = new JSONObject(Result);
-            if(JObj.isNull("total"))
+            if (JObj.isNull("id"))
                 return null;
-            return null;
+            ET.setID(JObj.getInt("id"));
+            if (JObj.isNull("number"))
+                return null;
+            ET.setNumber(JObj.getInt("number"));
+            if (!JObj.isNull("qrCode"))
+                ET.setQRCode(JObj.getString("qrCode"));
+            if (!JObj.isNull("status"))
+                ET.setStatus(JObj.getString("status"));
+            if (!JObj.isNull("qrCodeContentType"))
+                ET.setImage(JObj.getString("qrCodeContentType"));
+            ET.setCreateTime(JObj.getString("createTime"));
+            ET.setWaitTime(JObj.getInt("estimateTime"));
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        catch(Exception Ex)
+        return ET;
+    }
+
+    public ETicket GetETicket(FoodJoint FJ) {
+        ETicket ET = new ETicket();
+        try
         {
-            Ex.printStackTrace();
-            Toast.makeText(C, C.getString(R.string.ErrorJsonParsing), Toast.LENGTH_LONG).show();
-            return null;
+
+            Map<String, String> Params = new HashMap<>();
+            Params.put("foodJointId", String.valueOf(FJ.getId()));
+            Params.put("userName", LoginSinglton.getInstance().GetUserId(C));
+
+            HTTPGetCommunication CM = new HTTPGetCommunication();
+            String Result = CM.SendResuest(C, "api/tickets/new", Params);
+
+            JSONObject JObj = new JSONObject(Result);
+            if (JObj.isNull("id"))
+                return null;
+            ET.setID(JObj.getInt("id"));
+            if (JObj.isNull("number"))
+                return null;
+            ET.setNumber(JObj.getInt("number"));
+            if (!JObj.isNull("qrCode"))
+                ET.setQRCode(JObj.getString("qrCode"));
+            if (!JObj.isNull("status"))
+                ET.setStatus(JObj.getString("status"));
+            if (!JObj.isNull("qrCodeContentType"))
+                ET.setImage(JObj.getString("qrCodeContentType"));
+            ET.setCreateTime(JObj.getString("createTime"));
+            ET.setWaitTime(JObj.getInt("estimateTime"));
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        return ET;
     }
 }

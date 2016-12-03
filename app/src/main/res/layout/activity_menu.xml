@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -13,10 +14,48 @@
     android:orientation="vertical"
     android:background="#f2f2f2">
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ccc">
+
+        <ImageView
+            app:srcCompat="@mipmap/subway"
+            android:id="@+id/IVLogo"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
+
+        <TextView
+            android:text="Res"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/TVMenuHeader"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal"
+            android:textColor="#000"
+            android:textSize="20sp" />
+    </LinearLayout>
+
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="324dp"
+        android:layout_height="wrap_content"
         android:id="@+id/MenuList" />
+
+    <TextView
+        android:text="Order"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/TVOrderHeader"
+        android:gravity="center_vertical|center_horizontal"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:background="#ccc" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/OrderList" />
 
     <Button
         android:text="Finalize Order "
@@ -24,10 +63,5 @@
         android:layout_height="wrap_content"
         android:id="@+id/BTNFinalize"
         android:visibility="visible" />
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/OrderList" />
 
 </LinearLayout>

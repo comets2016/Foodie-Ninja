@@ -21,14 +21,27 @@ public class LoginSinglton
 
     public void validateUser(Context c)
     {
-        SQLiteJDBCforCredential sqlite = new SQLiteJDBCforCredential(c);
-        if(!sqlite.getAllContacts())
+        DBAdapter DBA = new DBAdapter(c);
+        if (!DBA.CheckCredentials())
         {
             Intent appInfo = new Intent(c, LoginControllerActivity.class);
             c.startActivity(appInfo);
             ((Activity) c).finish();
         }
 
+    }
+
+    public void SignOut(Context c) {
+        DBAdapter AJC = new DBAdapter(c);
+        AJC.LogOut();
+        Intent appInfo = new Intent(c, LoginControllerActivity.class);
+        c.startActivity(appInfo);
+        ((Activity) c).finish();
+    }
+
+    public String GetUserId(Context c) {
+        DBAdapter AJC = new DBAdapter(c);
+        return AJC.getUserID();
     }
 
 }

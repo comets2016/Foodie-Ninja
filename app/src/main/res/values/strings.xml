@@ -1,20 +1,15 @@
 <resources>
     <string name="app_name">FoodieNinja</string>
     <string name="title_activity_login">Sign in</string>
-
-    <!-- Strings related to login -->
     <string name="username">Username</string>
-
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_UserName">Invalid User Name</string>
     <string name="error_invalid_password">The password needs to be longer than 4 characters</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="error_invalid_User_Password">Either id or password is not valid or does not exist</string>
-    <string name="permission_rationale">Contacts permissions are needed for providing email completions</string>
+    <string name="permission_rationale">Contacts permissions are needed for providing email completions.</string>
     <string name="title_activity_restaurant">Restaurant</string>
     <string name="title_activity_eticket">ETicket</string>
     <string name="title_activity_payment">Payment</string>
@@ -23,6 +18,13 @@
     <string name="EstimatedWaitTime">Estimated Wait Time:</string>
     <string name="Downloading">Downloading Data..</string>
     <string name="Wait">Please wait</string>
-    <string name="PaymentAmount">Payment Amount:</string>error_signup_fail
-    <string name="error_signup_fail">Sign Up Failed</string>
+    <string name="PaymentAmount">Payment Amount:</string>
+    <string name="error_id_password">Either id or password is not valid or does not exist</string>
+    <string name="error_signup_fail">Sign up failure</string>
+    <string name="error_signup_firstName">First name cannot be empty</string>
+    <string name="error_signup_lastName">Last name cannot be empty</string>
+    <string name="exceed_items">Exceed Number of Orders</string>
+    <string name="error_invalid_User_Password">Username Or Password Is Not Valid</string>
+    <string name="payment_failed">Payment Failed</string>
+    <string name="title_activity_eticket_list_controller">ETicketListControllerActivity</string>
 </resources>

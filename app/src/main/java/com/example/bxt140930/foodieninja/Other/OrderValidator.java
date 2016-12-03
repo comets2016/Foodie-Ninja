@@ -1,8 +1,13 @@
 package com.example.bxt140930.Foodieninja.Other;
 
-/**
- * Created by bxt140930 on 12/1/2016.
- */
+import com.example.bxt140930.Foodieninja.Entities.Order;
+import com.example.bxt140930.Foodieninja.Entities.OrderItem;
 
 public class OrderValidator {
+    public Boolean Validate(Order O) {
+        int Totalitems = 0;
+        for (OrderItem OI : O.getOrderItems())
+            Totalitems += OI.getQuantuty();
+        return Totalitems < 5;
+    }
 }

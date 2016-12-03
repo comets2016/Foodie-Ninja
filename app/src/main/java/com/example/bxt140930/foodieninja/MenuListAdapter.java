@@ -13,21 +13,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.bxt140930.Foodieninja.Entities.Menu;
+import com.example.bxt140930.Foodieninja.Entities.Item;
 
 import java.util.ArrayList;
 
 class MenuListAdapter extends BaseAdapter {
 
     Context context;
-    ArrayList<com.example.bxt140930.Foodieninja.Entities.Menu> Menu;
+    ArrayList<Item> Menu;
     OrderItemListAdapter OILA;
     private static LayoutInflater inflater = null;
 
-    public MenuListAdapter(Context context, ArrayList<Menu> Menu,OrderItemListAdapter OILA) {
+    public MenuListAdapter(Context context, ArrayList<Item> Item, OrderItemListAdapter OILA) {
         // TODO Auto-generated constructor stub
         this.context = context;
-        this.Menu = Menu;
+        this.Menu = Item;
         this.OILA = OILA;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
