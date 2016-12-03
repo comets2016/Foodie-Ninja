@@ -9,16 +9,16 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.bxt140930.foodieninja.MainActivity"
+    tools:context="com.example.bxt140930.Foodieninja.FoodJointControllerActivity"
     android:background="#f5f5f5"
     android:padding="16dp"
     android:orientation="vertical">
 
     <TextView
-        android:text="Payment Amount: 16.00$ "
+        android:text="16.00$ "
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView2"
+        android:id="@+id/TVPayment"
         android:elevation="1dp"
         android:gravity="center_vertical|center_horizontal"
         android:textSize="24sp"
@@ -29,7 +29,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/LLComet">
+        android:id="@+id/LLComet"
+        android:visibility="gone">
 
         <ImageView
             app:srcCompat="@mipmap/comet"
@@ -50,7 +51,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <ImageView
             app:srcCompat="@mipmap/visa"
@@ -87,7 +89,7 @@
             android:layout_height="wrap_content"
             android:inputType="number"
             android:ems="10"
-            android:id="@+id/editText"
+            android:id="@+id/EDCometID"
             android:layout_weight="1"
             android:hint="UTD ID" />
 
@@ -117,7 +119,7 @@
             android:layout_height="wrap_content"
             android:inputType="number"
             android:ems="10"
-            android:id="@+id/editText2"
+            android:id="@+id/ETCreditNumber"
             android:layout_weight="1"
             android:hint="Card Number" />
 

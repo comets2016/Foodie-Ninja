@@ -3,20 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:padding="2dp"
+    android:background="@drawable/gray_gradient">
 
     <ImageView
         app:srcCompat="@mipmap/ic_launcher"
         android:id="@+id/IVLogo"
-        android:layout_width="80dp"
-        android:layout_height="80dp" />
+        android:layout_weight = "0"
+        android:layout_height="40dp"
+        android:layout_width="40dp" />
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight = "1">
 
         <TextView
             android:text="TextView"
@@ -24,7 +27,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/Itemname"
             android:gravity="center_vertical|center_horizontal"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -32,14 +35,15 @@
             android:id="@+id/ItemPrice"
             android:text="Footer"
             android:gravity="center_vertical|center_horizontal"
-            android:textSize="18sp" />
-
-        <Button
-            android:text="Add To Order"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/button2" />
+            android:textSize="14sp" />
 
     </LinearLayout>
+
+    <Button
+        android:layout_weight = "0"
+        android:id="@+id/BTNAdd"
+        android:background="@mipmap/add"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
 
 </LinearLayout>

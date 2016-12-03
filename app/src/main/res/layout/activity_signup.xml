@@ -25,7 +25,8 @@
         android:fontFamily="sans-serif"
         android:textSize="24sp"
         android:allowUndo="true"
-        android:hint="FirstName" />
+        android:hint="FirstName"
+        />
 
     <EditText
         android:layout_width="match_parent"
@@ -51,7 +52,8 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="text"
+        android:digits="0,1,2,3,4,5,6,7,8,9,*,qwertzuiopasdfghjklyxcvbnm"
         android:ems="10"
         android:id="@+id/ETId"
         android:fontFamily="sans-serif"
